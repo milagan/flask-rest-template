@@ -1,5 +1,7 @@
 import unittest
 
+from flask import json
+
 from main.app import app, valid_book_object
 
 
@@ -24,9 +26,26 @@ class EndpointTests(unittest.TestCase):
         response = self.app.get('/books')
         self.assertEqual(response.status_code, 200)
 
-    def test_books_by_isdn_status_code(self):
+    def test_books_by_isbn_status_code(self):
         response = self.app.get('/books/12345')
         self.assertEqual(response.status_code, 200)
+
+    def test_add_books_status_code(self):
+        valid_object = {
+            'name': 'A',
+            'price': 2.75,
+            'isbn': 98765
+        }
+        response = self.app.post('/books', data=json.dumps(valid_object),
+                                 content_type='application/json')
+        self.assertEqual(response.status_code, 201)
+
+    def test_add_books_status_code_400(self):
+        invalid_object = dict(
+        )
+        response = self.app.post('/books', data=json.dumps(invalid_object),
+                                 content_type='application/json')
+        self.assertEqual(response.status_code, 400)
 
 
 class HelperMethodsTests(unittest.TestCase):
