@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
@@ -31,6 +31,18 @@ def get_book_by_isbn(isbn):
                 'price': book['price']
             }
     return jsonify(return_value)
+
+
+@app.route('/books', methods=['POST'])
+def add_book():
+    return jsonify(request.get_json())
+
+
+def valid_book_object(book_object):
+    if 'name' in book_object and 'price' in book_object and 'isbn' in book_object:
+        return True
+    else:
+        return False
 
 
 if __name__ == '__main__':
