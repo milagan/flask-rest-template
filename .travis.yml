@@ -8,5 +8,7 @@ install: pip install -r requirements/dev.txt
 before_script:
   - export FLASK_APP="$TRAVIS_BUILD_DIR/main/app.py"
   - export FLASK_DEBUG=1
-
-script: pytest --verbose
+script:
+  - coverage run --source=main -m pytest --verbose
+after_success:
+  - coveralls

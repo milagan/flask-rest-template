@@ -7,3 +7,6 @@ WebTest
 factory-boy
 # For python 3
 Faker
+# Code Coverage
+python-coveralls
+pytest-cov
