@@ -1,6 +1,6 @@
 import unittest
 
-from app import app
+from main.app import app
 
 
 class BasicTests(unittest.TestCase):
@@ -27,6 +27,3 @@ class BasicTests(unittest.TestCase):
     def test_books_by_isdn_status_code(self):
         response = self.app.get('/books/12345')
         self.assertEqual(response.status_code, 200)
-
-if __name__ == '__main__':
-    unittest.main()
