@@ -55,6 +55,24 @@ def add_book():
         return response
 
 
+@app.route('/books/<int:isbn>', methods=['PUT'])
+def replace_book(isbn):
+    request_data = request.get_json()
+    new_book = {
+        'name': request_data['name'],
+        'price': request_data['price'],
+        'isbn': isbn
+    }
+    i = 0
+    for book in books:
+        current_isbn = book['isbn']
+        if current_isbn == isbn:
+            books[i] = new_book
+        i += 1
+    response = Response("", status=204)
+    return response
+
+
 def valid_book_object(book_object):
     if 'name' in book_object and 'price' in book_object and 'isbn' in book_object:
         return True
