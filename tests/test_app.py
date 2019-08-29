@@ -2,7 +2,7 @@ import unittest
 
 from flask import json
 
-from main.app import app, valid_book_object
+from main.app import app, valid_book_object, valid_put_request_data
 
 
 class EndpointTests(unittest.TestCase):
@@ -56,6 +56,14 @@ class EndpointTests(unittest.TestCase):
                                 content_type='application/json')
         self.assertEqual(response.status_code, 204)
 
+    def test_update_books_status_code_400(self):
+        valid_object = {
+            'name': 'Updated name'
+        }
+        response = self.app.put('/books/98765', data=json.dumps(valid_object),
+                                content_type='application/json')
+        self.assertEqual(response.status_code, 400)
+
 
 class HelperMethodsTests(unittest.TestCase):
     def test_valid_book_object_valid(self):
@@ -96,3 +104,12 @@ class HelperMethodsTests(unittest.TestCase):
         }
         valid = valid_book_object(invalid_object)
         self.assertTrue(not valid, 'Book object should be invalid')
+
+    def test_valid_put_request_data(self):
+        valid_object = {
+            'name': 'A',
+            'price': 2.75,
+            'isbn': 12345
+        }
+        valid = valid_put_request_data(valid_object)
+        self.assertTrue(valid, 'Request data should be valid')
