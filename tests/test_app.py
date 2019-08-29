@@ -27,7 +27,7 @@ class EndpointTests(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_books_by_isbn_status_code(self):
-        response = self.app.get('/books/12345')
+        response = self.app.get('/books/98765')
         self.assertEqual(response.status_code, 200)
 
     def test_add_books_status_code(self):
@@ -79,6 +79,13 @@ class EndpointTests(unittest.TestCase):
                                   content_type='application/json')
         self.assertEqual(response.status_code, 204)
 
+    def test_delete_books_status_code(self):
+        response = self.app.delete('/books/12345')
+        self.assertEqual(response.status_code, 204)
+
+    def test_delete_books_status_code_404(self):
+        response = self.app.delete('/books/12344')
+        self.assertEqual(response.status_code, 404)
 
 
 class HelperMethodsTests(unittest.TestCase):
