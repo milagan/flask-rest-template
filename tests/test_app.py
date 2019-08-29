@@ -47,6 +47,15 @@ class EndpointTests(unittest.TestCase):
                                  content_type='application/json')
         self.assertEqual(response.status_code, 400)
 
+    def test_update_books_status_code(self):
+        valid_object = {
+            'name': 'Updated name',
+            'price': 10.75
+        }
+        response = self.app.put('/books/98765', data=json.dumps(valid_object),
+                                content_type='application/json')
+        self.assertEqual(response.status_code, 204)
+
 
 class HelperMethodsTests(unittest.TestCase):
     def test_valid_book_object_valid(self):
