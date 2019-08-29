@@ -81,6 +81,22 @@ def replace_book(isbn):
     return response
 
 
+@app.route('/books/<int:isbn>', methods=['PATCH'])
+def update_book(isbn):
+    request_data = request.get_json()
+    updated_book = {}
+    if 'name' in request_data:
+        updated_book['name'] = request_data['name']
+    if 'price' in request_data:
+        updated_book['price'] = request_data['price']
+    for book in books:
+        if book['isbn'] == isbn:
+            book.update(updated_book)
+    response = Response("", status=204)
+    response.headers['Location'] = '/books' + str(isbn)
+    return response
+
+
 def valid_book_object(book_object):
     if 'name' in book_object and 'price' in book_object and 'isbn' in book_object:
         return True

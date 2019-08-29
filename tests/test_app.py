@@ -47,7 +47,7 @@ class EndpointTests(unittest.TestCase):
                                  content_type='application/json')
         self.assertEqual(response.status_code, 400)
 
-    def test_update_books_status_code(self):
+    def test_replace_books_status_code(self):
         valid_object = {
             'name': 'Updated name',
             'price': 10.75
@@ -56,13 +56,29 @@ class EndpointTests(unittest.TestCase):
                                 content_type='application/json')
         self.assertEqual(response.status_code, 204)
 
-    def test_update_books_status_code_400(self):
+    def test_replace_books_status_code_400(self):
         valid_object = {
             'name': 'Updated name'
         }
         response = self.app.put('/books/98765', data=json.dumps(valid_object),
                                 content_type='application/json')
         self.assertEqual(response.status_code, 400)
+
+    def test_update_books_status_code(self):
+        valid_object = {
+            'name': 'Updated name'
+        }
+        response = self.app.patch('/books/98765', data=json.dumps(valid_object),
+                                  content_type='application/json')
+        self.assertEqual(response.status_code, 204)
+
+        valid_object = {
+            'price': 1.00
+        }
+        response = self.app.patch('/books/98765', data=json.dumps(valid_object),
+                                  content_type='application/json')
+        self.assertEqual(response.status_code, 204)
+
 
 
 class HelperMethodsTests(unittest.TestCase):
