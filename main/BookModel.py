@@ -19,6 +19,7 @@ class Book(db.Model):
         new_book = Book(name=_name, price=_price, isbn=_isbn)
         db.session.add(new_book)
         db.session.commit()
+        return True
 
     @staticmethod
     def get_all_books():
@@ -27,6 +28,12 @@ class Book(db.Model):
     @staticmethod
     def get_book(_isbn):
         return Book.query.filter_by(isbn=_isbn).first()
+
+    @staticmethod
+    def delete_book(_isbn):
+        Book.query.filter_by(isbn=_isbn).delete()
+        db.session.commit()
+        return True
 
     def __repr__(self):
         book_object = {
