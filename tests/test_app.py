@@ -80,6 +80,14 @@ class EndpointTests(unittest.TestCase):
         self.assertEqual(response.status_code, 204)
 
     def test_delete_books_status_code(self):
+        valid_object = {
+            'name': 'A',
+            'price': 2.75,
+            'isbn': 12345
+        }
+        response = self.app.post('/books', data=json.dumps(valid_object),
+                                 content_type='application/json')
+        self.assertEqual(response.status_code, 201)
         response = self.app.delete('/books/12345')
         self.assertEqual(response.status_code, 204)
 
