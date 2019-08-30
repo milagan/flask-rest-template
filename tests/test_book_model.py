@@ -1,6 +1,6 @@
 import unittest
 
-from main.BookModel import Book
+from main.model.BookModel import Book
 
 
 class ModelTests(unittest.TestCase):
