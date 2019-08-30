@@ -1,10 +1,24 @@
 import datetime
+from functools import wraps
 
 import jwt
 from flask import jsonify, request, Response
 
 from model.BookModel import *
 from model.UserModel import *
+
+
+def token_required(f):
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        token = request.args.get('token')
+        try:
+            token.decode(token, app.config['SECRET_KEY'])
+            return f(*args, **kwargs)
+        except:
+            return jsonify({'error': 'Need a valid token to view this page'}), 401
+
+    return wrapper
 
 
 @app.route('/login', methods=['POST'])
@@ -15,7 +29,7 @@ def get_token():
 
     match = User.username_password_match(username, password)
     if match:
-        expiration_date = datetime.datetime.utcnow() + datetime.timedelta(seconds=100)
+        expiration_date = datetime.datetime.utcnow() + datetime.timedelta(seconds=300)
         token = jwt.encode({'exp': expiration_date}, app.config['SECRET_KEY'], algorithm='HS256')
         return token
     else:
@@ -23,6 +37,7 @@ def get_token():
 
 
 @app.route('/books')
+@token_required
 def get_books():
     return jsonify({'books': Book.get_all_books()})
 
