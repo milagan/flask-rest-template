@@ -4,13 +4,22 @@ import jwt
 from flask import jsonify, request, Response
 
 from model.BookModel import *
+from model.UserModel import *
 
 
-@app.route('/login')
+@app.route('/login', methods=['POST'])
 def get_token():
-    expiration_date = datetime.datetime.utcnow() + datetime.timedelta(seconds=100)
-    token = jwt.encode({'exp': expiration_date}, app.config['SECRET_KEY'], algorithm='HS256')
-    return token
+    request_data = request.get_json()
+    username = str(request_data['username'])
+    password = str(request_data['password'])
+
+    match = User.username_password_match(username, password)
+    if match:
+        expiration_date = datetime.datetime.utcnow() + datetime.timedelta(seconds=100)
+        token = jwt.encode({'exp': expiration_date}, app.config['SECRET_KEY'], algorithm='HS256')
+        return token
+    else:
+        return Response("", status=401, mimetype='application/json')
 
 
 @app.route('/books')

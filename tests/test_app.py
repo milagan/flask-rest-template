@@ -22,6 +22,24 @@ class EndpointTests(unittest.TestCase):
     def tearDown(self):
         pass
 
+    def test_login_status_code(self):
+        user_account = {
+            'username': 'maurice',
+            'password': 'password'
+        }
+        response = self.app.post('/login', data=json.dumps(user_account),
+                                 content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+
+    def test_login_status_code_401(self):
+        user_account = {
+            'username': 'invalid',
+            'password': 'password'
+        }
+        response = self.app.post('/login', data=json.dumps(user_account),
+                                 content_type='application/json')
+        self.assertEqual(response.status_code, 401)
+
     def test_books_status_code(self):
         response = self.app.get('/books')
         self.assertEqual(response.status_code, 200)

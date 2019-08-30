@@ -14,6 +14,14 @@ class Book(db.Model):
     price = db.Column(db.Float, nullable=False)
     isbn = db.Column(db.Integer)
 
+    def __repr__(self):
+        book_object = {
+            'name': self.name,
+            'price': self.price,
+            'isbn': self.isbn
+        }
+        return json.dumps(book_object)
+
     def json(self):
         return {'name': self.name, 'price': self.price, 'isbn': self.isbn}
 
@@ -60,10 +68,3 @@ class Book(db.Model):
         db.session.commit()
         return True
 
-    def __repr__(self):
-        book_object = {
-            'name': self.name,
-            'price': self.price,
-            'isbn': self.isbn
-        }
-        return json.dumps(book_object)
