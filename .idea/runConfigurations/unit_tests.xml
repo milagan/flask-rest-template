@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Unittests in tests" type="tests" factoryName="Unittests">
+  <configuration default="false" name="unit tests" type="tests" factoryName="Unittests">
     <module name="flask-rest-template" />
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />

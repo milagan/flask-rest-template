@@ -2,7 +2,7 @@ import json
 
 from flask_sqlalchemy import SQLAlchemy
 
-from main.settings import app
+from settings import app
 
 db = SQLAlchemy(app)
 

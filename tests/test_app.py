@@ -2,7 +2,7 @@ import unittest
 
 from flask import json
 
-from main.app import app, valid_book_object, valid_put_request_data
+from app import app, valid_book_object, valid_put_request_data
 
 
 class EndpointTests(unittest.TestCase):
