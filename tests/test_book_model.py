@@ -19,3 +19,13 @@ class ModelTests(unittest.TestCase):
     def test_delete_book(self):
         status = Book.delete_book(12345678)
         self.assertTrue(status, "Book should be deleted")
+
+    def test_update_book(self):
+        status = Book.update_book_price(123456789, 1.99)
+        self.assertTrue(status, "Book price should be updated")
+        status = Book.update_book_name(123456789, "Book 1")
+        self.assertTrue(status, "Book name should be updated")
+
+    def test_replace_book(self):
+        status = Book.replace_book(123456789, "Book 2", 2.99)
+        self.assertTrue(status, "Book name should be replaced")
