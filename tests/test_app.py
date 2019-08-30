@@ -6,6 +6,7 @@ from main.app import app, valid_book_object, valid_put_request_data
 
 
 class EndpointTests(unittest.TestCase):
+    token = ""
     @classmethod
     def setUpClass(cls):
         pass
@@ -17,6 +18,13 @@ class EndpointTests(unittest.TestCase):
     def setUp(self):
         self.app = app.test_client()
         self.app.testing = True
+        user_account = {
+            'username': 'maurice',
+            'password': 'password'
+        }
+        response = self.app.post('/login', data=json.dumps(user_account),
+                                 content_type='application/json')
+        self.token = response.data.decode('utf-8')
         pass
 
     def tearDown(self):
@@ -41,11 +49,15 @@ class EndpointTests(unittest.TestCase):
         self.assertEqual(response.status_code, 401)
 
     def test_books_status_code(self):
-        response = self.app.get('/books')
+        response = self.app.get('/books?token=' + self.token)
         self.assertEqual(response.status_code, 200)
 
+    def test_books_status_code_404(self):
+        response = self.app.get('/books?')
+        self.assertEqual(response.status_code, 401)
+
     def test_books_by_isbn_status_code(self):
-        response = self.app.get('/books/98765')
+        response = self.app.get('/books/98765?token=' + self.token)
         self.assertEqual(response.status_code, 200)
 
     def test_add_books_status_code(self):
@@ -54,14 +66,14 @@ class EndpointTests(unittest.TestCase):
             'price': 2.75,
             'isbn': 98765
         }
-        response = self.app.post('/books', data=json.dumps(valid_object),
+        response = self.app.post('/books?token=' + self.token, data=json.dumps(valid_object),
                                  content_type='application/json')
         self.assertEqual(response.status_code, 201)
 
     def test_add_books_status_code_400(self):
         invalid_object = dict(
         )
-        response = self.app.post('/books', data=json.dumps(invalid_object),
+        response = self.app.post('/books?token=' + self.token, data=json.dumps(invalid_object),
                                  content_type='application/json')
         self.assertEqual(response.status_code, 400)
 
@@ -70,7 +82,7 @@ class EndpointTests(unittest.TestCase):
             'name': 'Updated name',
             'price': 10.75
         }
-        response = self.app.put('/books/98765', data=json.dumps(valid_object),
+        response = self.app.put('/books/98765?token=' + self.token, data=json.dumps(valid_object),
                                 content_type='application/json')
         self.assertEqual(response.status_code, 204)
 
@@ -78,7 +90,7 @@ class EndpointTests(unittest.TestCase):
         valid_object = {
             'name': 'Updated name'
         }
-        response = self.app.put('/books/98765', data=json.dumps(valid_object),
+        response = self.app.put('/books/98765?token=' + self.token, data=json.dumps(valid_object),
                                 content_type='application/json')
         self.assertEqual(response.status_code, 400)
 
@@ -86,14 +98,14 @@ class EndpointTests(unittest.TestCase):
         valid_object = {
             'name': 'Updated name'
         }
-        response = self.app.patch('/books/98765', data=json.dumps(valid_object),
+        response = self.app.patch('/books/98765?token=' + self.token, data=json.dumps(valid_object),
                                   content_type='application/json')
         self.assertEqual(response.status_code, 204)
 
         valid_object = {
             'price': 1.00
         }
-        response = self.app.patch('/books/98765', data=json.dumps(valid_object),
+        response = self.app.patch('/books/98765?token=' + self.token, data=json.dumps(valid_object),
                                   content_type='application/json')
         self.assertEqual(response.status_code, 204)
 
@@ -103,14 +115,14 @@ class EndpointTests(unittest.TestCase):
             'price': 2.75,
             'isbn': 12345
         }
-        response = self.app.post('/books', data=json.dumps(valid_object),
+        response = self.app.post('/books?token=' + self.token, data=json.dumps(valid_object),
                                  content_type='application/json')
         self.assertEqual(response.status_code, 201)
-        response = self.app.delete('/books/12345')
+        response = self.app.delete('/books/12345?token=' + self.token)
         self.assertEqual(response.status_code, 204)
 
     def test_delete_books_status_code_404(self):
-        response = self.app.delete('/books/12344')
+        response = self.app.delete('/books/12344?token=' + self.token)
         self.assertEqual(response.status_code, 404)
 
 

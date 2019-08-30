@@ -4,6 +4,9 @@ from model.BookModel import Book
 
 
 class ModelTests(unittest.TestCase):
+    def test_repr(self):
+        self.assertIsNotNone(repr(Book()), "Book should have repr")
+
     def test_get_all_books(self):
         books = Book.get_all_books()
         self.assertIsNotNone(books, "Books should not be None")

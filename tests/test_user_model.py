@@ -4,6 +4,9 @@ from model.UserModel import User
 
 
 class ModelTests(unittest.TestCase):
+    def test_repr(self):
+        self.assertIsNotNone(repr(User()), "User should have repr")
+
     def test_get_all_books(self):
         users = User.get_all_users()
         self.assertIsNotNone(users, "Users should not be None")
