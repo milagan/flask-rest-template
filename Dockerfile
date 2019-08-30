@@ -9,4 +9,4 @@ COPY --from=builder /install /usr/local
 COPY . /app
 WORKDIR /app
 EXPOSE 5000/tcp
-CMD ["python", "app.py"]
+CMD ["./docker-entrypoint.sh"]
