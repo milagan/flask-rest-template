@@ -1,7 +1,16 @@
-from flask import jsonify, request, Response, json
+import datetime
 
-from main.model.BookModel import *
-from main.settings import *
+import jwt
+from flask import jsonify, request, Response
+
+from model.BookModel import *
+
+
+@app.route('/login')
+def get_token():
+    expiration_date = datetime.datetime.utcnow() + datetime.timedelta(seconds=100)
+    token = jwt.encode({'exp': expiration_date}, app.config['SECRET_KEY'], algorithm='HS256')
+    return token
 
 
 @app.route('/books')
