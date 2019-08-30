@@ -13,7 +13,7 @@ def token_required(f):
     def wrapper(*args, **kwargs):
         token = request.args.get('token')
         try:
-            token.decode(token, app.config['SECRET_KEY'])
+            jwt.decode(token, app.config['SECRET_KEY'])
             return f(*args, **kwargs)
         except:
             return jsonify({'error': 'Need a valid token to view this page'}), 401
