@@ -126,5 +126,9 @@ def valid_put_request_data(request_data):
         return False
 
 
+def create_app():
+    return app
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
