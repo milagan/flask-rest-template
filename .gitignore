@@ -1,3 +1,6 @@
 # Project exclude paths
 /venv/
 .coverage
+/build/
+/dist/
+MANIFEST

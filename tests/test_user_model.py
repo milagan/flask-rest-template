@@ -19,3 +19,7 @@ class ModelTests(unittest.TestCase):
         User.delete_user('maurice1')
         match = User.create_user("maurice1", "password")
         self.assertTrue(match, "Username and password should be created")
+
+
+if __name__ == '__main__':
+    unittest.main()

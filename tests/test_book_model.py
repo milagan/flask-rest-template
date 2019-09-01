@@ -32,3 +32,7 @@ class ModelTests(unittest.TestCase):
     def test_replace_book(self):
         status = Book.replace_book(123456789, "Book 2", 2.99)
         self.assertTrue(status, "Book name should be replaced")
+
+
+if __name__ == '__main__':
+    unittest.main()

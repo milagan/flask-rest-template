@@ -7,8 +7,18 @@ from app import app, valid_book_object, valid_put_request_data
 
 class EndpointTests(unittest.TestCase):
     token = ""
+
     @classmethod
     def setUpClass(cls):
+        cls.app = app.test_client()
+        cls.app.testing = True
+        user_account = {
+            'username': 'maurice',
+            'password': 'password'
+        }
+        response = cls.app.post('/login', data=json.dumps(user_account),
+                                content_type='application/json')
+        cls.token = response.data.decode('utf-8')
         pass
 
     @classmethod
@@ -16,15 +26,6 @@ class EndpointTests(unittest.TestCase):
         pass
 
     def setUp(self):
-        self.app = app.test_client()
-        self.app.testing = True
-        user_account = {
-            'username': 'maurice',
-            'password': 'password'
-        }
-        response = self.app.post('/login', data=json.dumps(user_account),
-                                 content_type='application/json')
-        self.token = response.data.decode('utf-8')
         pass
 
     def tearDown(self):
@@ -174,3 +175,7 @@ class HelperMethodsTests(unittest.TestCase):
         }
         valid = valid_put_request_data(valid_object)
         self.assertTrue(valid, 'Request data should be valid')
+
+
+if __name__ == '__main__':
+    unittest.main()
